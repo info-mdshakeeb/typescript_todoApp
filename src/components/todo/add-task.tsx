@@ -1,4 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from "react";
+import { addTodo, useTodos } from "../../redux/features/todoSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
 export interface IFormData {
   title: string;
@@ -6,6 +8,9 @@ export interface IFormData {
 }
 
 const AddTask = () => {
+  const dispatch = useAppDispatch();
+  const { todos } = useAppSelector(useTodos);
+
   const [formData, setFormData] = useState<IFormData>({
     title: "",
     priority: "",
@@ -14,18 +19,20 @@ const AddTask = () => {
   const handleStateChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const inputName = e.target.name;
-    const value = e.target.value;
-
     setFormData({
       ...formData,
-      [inputName]: value,
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleAddTask = (e: FormEvent) => {
     e.preventDefault();
-    // Handle the form submission here
+    const same = todos.find((todo) => todo.title === formData.title);
+    if (same) {
+      alert("already same name exist");
+      return;
+    }
+    dispatch(addTodo(formData));
   };
 
   return (
@@ -43,8 +50,12 @@ const AddTask = () => {
           onChange={handleStateChange}
           name="priority"
           required
+          defaultValue={""}
           className="p-2 mr-2 border"
         >
+          <option disabled value="">
+            Select a value
+          </option>
           <option value="low">Low</option>
           <option value="medium">Medium</option>
           <option value="high">High</option>
