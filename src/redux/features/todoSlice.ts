@@ -5,6 +5,7 @@ import { RootState } from '../store';
 export interface ITodos {
   id?: string,
   is_completed?: boolean,
+  updated_at?: string,
   created_at?: string,
   title: string,
   priority: string
@@ -26,6 +27,7 @@ const todoSlice = createSlice({
         id: uuidv4(),
         is_completed: false,
         created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
       })
     },
     delateTodos: (state, action: PayloadAction<{ id: string }>) => {
