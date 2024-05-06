@@ -1,10 +1,11 @@
-import { useTodos } from "../../redux/features/todoSlice";
-import { useAppSelector } from "../../redux/hooks";
+import { reset, useTodos } from "../../redux/features/todoSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import AddTask from "./add-task";
 import TodoTaskCard from "./todo-taskcard";
 
 const TodoContainer = () => {
   const { todos } = useAppSelector(useTodos);
+  const dispatch = useAppDispatch();
 
   return (
     <>
@@ -20,7 +21,10 @@ const TodoContainer = () => {
               <option value="high">High</option>
             </select>
           </div>
-          <button className="p-2 text-sm text-white bg-red-500 rounded ">
+          <button
+            onClick={() => dispatch(reset())}
+            className="p-2 text-sm text-white bg-red-500 rounded "
+          >
             Delete All
           </button>
         </div>

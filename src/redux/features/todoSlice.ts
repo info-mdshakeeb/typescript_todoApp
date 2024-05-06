@@ -30,6 +30,17 @@ const todoSlice = createSlice({
         updated_at: new Date().toISOString()
       })
     },
+    editTodos: (state, action: PayloadAction<ITodos>) => {
+      state.todos.map(item => item.id === action.payload.id ? {
+        ...item,
+        title: action.payload.title,
+        updated_at: new Date().toISOString(),
+        is_completed: false,
+        priority: action.payload.priority,
+
+      } : item)
+    },
+
     delateTodos: (state, action: PayloadAction<{ id: string }>) => {
       state.todos.filter(item => item.id !== action.payload.id)
     },
