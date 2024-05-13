@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { addTodo, useTodos } from "../../redux/features/todoSlice";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { addTodo } from "../../redux/features/todoSlice";
+import { useAppDispatch } from "../../redux/hooks";
 
 export interface IFormData {
   title: string;
@@ -9,8 +9,6 @@ export interface IFormData {
 
 const AddTask = () => {
   const dispatch = useAppDispatch();
-  const { todos } = useAppSelector(useTodos);
-
   const [formData, setFormData] = useState<IFormData>({
     title: "",
     priority: "",
@@ -27,11 +25,6 @@ const AddTask = () => {
 
   const handleAddTask = (e: FormEvent) => {
     e.preventDefault();
-    const same = todos.find((todo) => todo.title === formData.title);
-    if (same) {
-      alert("already same name exist");
-      return;
-    }
     dispatch(addTodo(formData));
   };
 

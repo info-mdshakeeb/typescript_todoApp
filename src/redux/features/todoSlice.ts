@@ -22,6 +22,8 @@ const todoSlice = createSlice({
   initialState,
   reducers: {
     addTodo: (state, action: PayloadAction<ITodos>) => {
+      if (state.todos.find(todo => todo.title === action.payload.title)) return alert('Task already exist')
+
       state.todos.push({
         ...action.payload,
         id: uuidv4(),
